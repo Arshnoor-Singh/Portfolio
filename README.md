@@ -1,6 +1,13 @@
 # Arshnoor Singh — Portfolio
 
-This repository serves the Notion portfolio export at the site root. The layout, content, columns, and spacing are unchanged from the export. The green folder icon has been removed, and a dark theme is applied with `public/notion-dark.css`.
+This repository serves the Notion portfolio export with:
+
+- the green folder icon removed
+- a dark theme
+- a 60/40 text/media split on desktop
+- full-width media in the 40% column
+- click-to-play YouTube facades that open the player
+- a stacked text-then-media layout on tablet and mobile
 
 ## Live site
 
@@ -12,8 +19,10 @@ https://arshnoor-singh.github.io/Portfolio/
 
 ```text
 public/
-  index.html        exact Notion export (folder icon removed, dark theme linked)
+  index.html        Notion export with layout classes and enhancement hooks
   notion-dark.css   color-only dark theme overrides
+  notion-layout.css 60/40 split, image sizing, responsive stacking
+  notion-enhance.js media move, YouTube facades, player loading
   notion-assets/    images and video referenced by the export
 src/
   archive/pages/    previous Astro design, kept for reference but not built

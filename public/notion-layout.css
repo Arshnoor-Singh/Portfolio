@@ -1,0 +1,220 @@
+/* 60/40 layout for the Notion export.
+   Desktop: 60% text column, 40% media column.
+   Tablet/mobile: columns stack so the media stays usable. */
+
+:root {
+  --page-max: 1800px;
+  --text-measure: 700px;
+  --split-gap: 46px;
+}
+
+@media only screen {
+  body {
+    max-width: min(var(--page-max), calc(100% - 64px));
+    margin: 2em auto;
+  }
+}
+
+/* Keep the page title, intro, and section-level copy in the left column. */
+header {
+  max-width: var(--text-measure);
+}
+
+.page-body > h1,
+.page-body > h2,
+.page-body > h3,
+.page-body > p {
+  max-width: var(--text-measure);
+}
+
+/* Project split: text 60%, media 40%. */
+.column-list.project-split {
+  gap: 0;
+  background-image: linear-gradient(
+    to right,
+    transparent calc(60% - 1px),
+    #3f4a55 calc(60% - 1px),
+    #3f4a55 60%,
+    transparent 60%
+  );
+}
+
+.column-list.project-split > .project-text {
+  width: 60% !important;
+  flex: 0 0 60%;
+  padding-right: var(--split-gap);
+}
+
+.column-list.project-split > .project-media {
+  width: 40% !important;
+  flex: 0 0 40%;
+}
+
+/* Constrain the text measure inside the 60% column without shrinking it. */
+.project-text > p,
+.project-text > ol,
+.project-text > ul,
+.project-text > h1,
+.project-text > h2,
+.project-text > h3,
+.project-text > h4,
+.project-text > .callout,
+.project-text > figure,
+.project-text > div {
+  max-width: var(--text-measure);
+}
+
+/* Make the media column fill its 40% share. */
+.project-media img {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.project-media figure {
+  width: 100%;
+}
+
+/* Nested image grids still use two columns inside the 40% media area. */
+.project-media .column-list {
+  gap: 20px;
+}
+
+/* Bottom skills block: three equal columns across the wider page. */
+.column-list.skills-grid {
+  gap: 32px;
+}
+
+.column-list.skills-grid > .column {
+  width: auto !important;
+  flex: 1 1 0;
+}
+
+/* YouTube player created by notion-enhance.js. */
+.youtube-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.youtube-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.youtube-facade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: #000;
+  cursor: pointer;
+}
+
+.youtube-facade img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.78;
+  transition:
+    opacity 200ms ease,
+    transform 400ms ease;
+}
+
+.youtube-facade:hover img {
+  opacity: 0.95;
+  transform: scale(1.02);
+}
+
+.youtube-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.youtube-play > span {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #06110b;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: background-color 180ms ease;
+}
+
+.youtube-facade:hover .youtube-play > span {
+  background: #9df0bd;
+}
+
+/* Tablet / small desktop: stack text above media. */
+@media only screen and (max-width: 1000px) {
+  body {
+    max-width: calc(100% - 64px);
+  }
+
+  header,
+  .page-body > h1,
+  .page-body > h2,
+  .page-body > h3,
+  .page-body > p {
+    max-width: none;
+  }
+
+  .column-list.project-split {
+    flex-direction: column;
+    gap: 24px;
+    background-image: none;
+  }
+
+  .column-list.project-split > .project-text,
+  .column-list.project-split > .project-media {
+    width: 100% !important;
+    flex: 0 0 auto;
+    padding-right: 0;
+  }
+
+  .project-text > p,
+  .project-text > ol,
+  .project-text > ul,
+  .project-text > h1,
+  .project-text > h2,
+  .project-text > h3,
+  .project-text > h4,
+  .project-text > .callout,
+  .project-text > figure,
+  .project-text > div {
+    max-width: none;
+  }
+
+  .project-media img {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    max-width: calc(100% - 40px);
+    margin: 1.5em auto;
+  }
+
+  .column-list.skills-grid {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .column-list.skills-grid > .column {
+    width: 100% !important;
+    flex: 0 0 auto;
+  }
+}
