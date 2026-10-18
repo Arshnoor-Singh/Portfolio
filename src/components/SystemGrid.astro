@@ -1,0 +1,17 @@
+---
+interface Props {
+  systems: Array<{ name: string; detail: string }>;
+}
+
+const { systems } = Astro.props;
+---
+
+<div class="systems">
+  {systems.map((system) => (
+    <article class="system">
+      <span class="system__label">System</span>
+      <h3>{system.name}</h3>
+      <p>{system.detail}</p>
+    </article>
+  ))}
+</div>

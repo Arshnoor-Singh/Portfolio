@@ -1,0 +1,141 @@
+---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface GalleryImage {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+}
+
+const { images } = Astro.props;
+
+const prepared = await Promise.all(
+  images.map(async (image) => {
+    const thumb = await getImage({
+      src: image.src,
+      width: 1000,
+      height: 625,
+      fit: 'cover',
+      format: 'webp',
+      quality: 82,
+    });
+
+    const full = await getImage({
+      src: image.src,
+      width: 2000,
+      format: 'webp',
+      quality: 88,
+    });
+
+    return { ...image, thumb, full };
+  }),
+);
+---
+
+{
+  images.length > 0 && (
+    <div class="gallery-root" data-gallery>
+      <div class:list={['gallery', images.length % 2 === 1 ? 'gallery--odd' : '']}>
+        {prepared.map((image, index) => (
+          <button
+            type="button"
+            class="gallery__item"
+            data-full={image.full.src}
+            data-width={image.full.width}
+            data-height={image.full.height}
+            data-alt={image.alt}
+            data-caption={image.caption ?? image.alt}
+            aria-label={`View image ${index + 1}: ${image.alt}`}
+          >
+            <img
+              src={image.thumb.src}
+              width={image.thumb.width}
+              height={image.thumb.height}
+              alt={image.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        ))}
+      </div>
+
+      <dialog class="lightbox" aria-label="Image viewer">
+        <button type="button" class="lightbox__close" data-close aria-label="Close image viewer">
+          ×
+        </button>
+        <button type="button" class="lightbox__prev" data-prev aria-label="Previous image">
+          ←
+        </button>
+        <button type="button" class="lightbox__next" data-next aria-label="Next image">
+          →
+        </button>
+
+        <figure class="lightbox__figure">
+          <img class="lightbox__image" src={prepared[0]?.full.src} alt="" />
+        </figure>
+
+        <div class="lightbox__bar">
+          <p class="lightbox__caption" data-caption></p>
+          <span class="lightbox__counter" data-counter></span>
+        </div>
+      </dialog>
+    </div>
+  )
+}
+
+<script>
+  const galleries = document.querySelectorAll<HTMLElement>('[data-gallery]');
+
+  galleries.forEach((gallery) => {
+    const dialog = gallery.querySelector<HTMLDialogElement>('dialog');
+    const image = gallery.querySelector<HTMLImageElement>('.lightbox__image');
+    const caption = gallery.querySelector<HTMLElement>('[data-caption]');
+    const counter = gallery.querySelector<HTMLElement>('[data-counter]');
+    const items = Array.from(gallery.querySelectorAll<HTMLButtonElement>('[data-full]'));
+
+    if (!dialog || !image || !caption || !counter || items.length === 0) return;
+
+    let current = 0;
+
+    const show = (index: number) => {
+      current = (index + items.length) % items.length;
+      const item = items[current];
+      image.src = item.dataset.full || '';
+      image.alt = item.dataset.alt || '';
+      if (item.dataset.width) image.width = Number(item.dataset.width);
+      if (item.dataset.height) image.height = Number(item.dataset.height);
+      caption.textContent = item.dataset.caption || item.dataset.alt || '';
+      counter.textContent = `${current + 1} / ${items.length}`;
+    };
+
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        show(index);
+        dialog.showModal();
+        document.body.classList.add('no-scroll');
+      });
+    });
+
+    dialog.addEventListener('close', () => {
+      document.body.classList.remove('no-scroll');
+    });
+
+    gallery.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+    gallery.querySelector('[data-prev]')?.addEventListener('click', () => show(current - 1));
+    gallery.querySelector('[data-next]')?.addEventListener('click', () => show(current + 1));
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(current - 1);
+      if (event.key === 'ArrowRight') show(current + 1);
+    });
+  });
+</script>

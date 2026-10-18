@@ -1,0 +1,33 @@
+---
+import { BASE, SITE_NAME, withBase } from '../lib/site';
+
+const path = Astro.url.pathname.startsWith(BASE)
+  ? Astro.url.pathname.slice(BASE.length - 1)
+  : Astro.url.pathname;
+
+const isWork = path.startsWith('/work');
+const isAbout = path.startsWith('/about');
+
+const now = new Date();
+const build = `${now.getUTCFullYear()}.${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={withBase()} aria-label={`${SITE_NAME} — home`}>
+      <span class="brand__mark" aria-hidden="true">AS</span>
+      <span class="brand__name">{SITE_NAME}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href={withBase('work/')} aria-current={isWork ? 'page' : undefined}>Work</a>
+      <a href={withBase('about/')} aria-current={isAbout ? 'page' : undefined}>About</a>
+      <a href={withBase('#contact')}>Contact</a>
+    </nav>
+
+    <div class="site-header__status" aria-label="Portfolio build">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>Build {build}</span>
+    </div>
+  </div>
+</header>

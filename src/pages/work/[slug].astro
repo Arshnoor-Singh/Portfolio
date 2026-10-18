@@ -1,0 +1,203 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Gallery from '../../components/Gallery.astro';
+import SystemGrid from '../../components/SystemGrid.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
+import { withBase } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('work');
+
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'work'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+
+const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = projects.findIndex((entry) => entry.id === project.id);
+const next = projects.length > 1 ? projects[(currentIndex + 1) % projects.length] : undefined;
+
+const og = await getImage({
+  src: data.cover,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpeg',
+  quality: 86,
+});
+
+const hasSystems = data.systems.length > 0;
+const hasGallery = data.gallery.length > 0;
+const hasVideos = data.videos.length > 0;
+const hasNotes = data.notes.length > 0;
+---
+
+<BaseLayout
+  title={`${data.title} — Arshnoor Singh`}
+  description={data.summary}
+  image={og.src}
+>
+  <article>
+    <header class="project-hero">
+      <div class="project-hero__media">
+        <Image
+          src={data.cover}
+          alt={data.coverAlt}
+          width={1920}
+          format="webp"
+          quality={85}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+
+      <div class="project-hero__content container">
+        <a class="back-link" href={withBase('work/')}>← All work</a>
+        <p class="eyebrow">{data.subtitle}</p>
+        <h1>{data.title}</h1>
+        <p class="project-hero__summary">{data.summary}</p>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="project-meta">
+        <div class="project-meta__item">
+          <span class="project-meta__label">Role</span>
+          <p class="project-meta__value">{data.role}</p>
+        </div>
+
+        <div class="project-meta__item">
+          <span class="project-meta__label">Focus</span>
+          <p class="project-meta__value">{data.focus}</p>
+        </div>
+
+        <div class="project-meta__item">
+          <span class="project-meta__label">Tools</span>
+          <p class="project-meta__value">{data.tools.join(' · ') || '—'}</p>
+        </div>
+
+        <div class="project-meta__item">
+          <span class="project-meta__label">Links</span>
+          <div class="project-meta__links">
+            {data.links.length > 0 ? (
+              data.links.map((link) => (
+                <a
+                  class="meta-link"
+                  href={link.url}
+                  target={link.url.startsWith('http') ? '_blank' : undefined}
+                  rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  {link.label} <span aria-hidden="true">↗</span>
+                </a>
+              ))
+            ) : (
+              <span class="project-meta__value">—</span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container project-body">
+      <aside class="project-aside">
+        <p class="project-aside__label">On this page</p>
+        <nav aria-label="Project sections">
+          {hasSystems && <a href="#systems">What I built</a>}
+          {hasGallery && <a href="#gallery">Gallery</a>}
+          {hasVideos && <a href="#video">Video</a>}
+          {hasNotes && <a href="#notes">Design notes</a>}
+        </nav>
+        <p class="project-aside__note">
+          {data.subtitle}. More work and process notes are in the rest of the portfolio.
+        </p>
+      </aside>
+
+      <div class="project-main">
+        <p class="project-intro">{data.intro}</p>
+
+        {hasSystems && (
+          <section class="project-section" id="systems">
+            <div class="project-section__head">
+              <h2>What I built</h2>
+              <span>{String(data.systems.length).padStart(2, '0')} systems</span>
+            </div>
+            <SystemGrid systems={data.systems} />
+          </section>
+        )}
+
+        {hasGallery && (
+          <section class="project-section" id="gallery">
+            <div class="project-section__head">
+              <h2>Gallery</h2>
+              <span>{String(data.gallery.length).padStart(2, '0')} images</span>
+            </div>
+            <Gallery images={data.gallery} />
+          </section>
+        )}
+
+        {hasVideos && (
+          <section class="project-section" id="video">
+            <div class="project-section__head">
+              <h2>Watch it move</h2>
+              <span>{String(data.videos.length).padStart(2, '0')} videos</span>
+            </div>
+            <div class="video-grid">
+              {data.videos.map((video) => (
+                <VideoEmbed
+                  title={video.title}
+                  youtubeId={video.youtubeId}
+                  poster={video.poster}
+                  posterAlt={video.posterAlt}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {hasNotes && (
+          <section class="project-section" id="notes">
+            <div class="project-section__head">
+              <h2>Design notes</h2>
+              <span>Notes</span>
+            </div>
+            <div class="project-notes">
+              {data.notes.map((note) => <p>{note}</p>)}
+            </div>
+          </section>
+        )}
+
+        {next && (
+          <a class="next-project" href={withBase(`work/${next.id}/`)}>
+            <span class="next-project__thumb">
+              <Image
+                src={next.data.cover}
+                alt=""
+                width={240}
+                format="webp"
+                quality={78}
+                loading="lazy"
+              />
+            </span>
+            <span>
+              <span class="next-project__label">Next project</span>
+              <span class="next-project__title">{next.data.title}</span>
+            </span>
+            <span class="next-project__arrow" aria-hidden="true">→</span>
+          </a>
+        )}
+      </div>
+    </div>
+  </article>
+</BaseLayout>

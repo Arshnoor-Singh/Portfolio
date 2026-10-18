@@ -1,0 +1,202 @@
+---
+import { getCollection } from 'astro:content';
+import { Image, getImage } from 'astro:assets';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { EMAIL, SITE_ROLE, withBase } from '../lib/site';
+
+const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+
+const driving = projects.find((project) => project.id === 'driving-license');
+const contactBelow = projects.find((project) => project.id === 'contact-below');
+const loneliest = projects.find((project) => project.id === 'loneliest-artist');
+
+if (!driving || !contactBelow || !loneliest) {
+  throw new Error('Missing one of the featured projects.');
+}
+
+const og = await getImage({
+  src: driving.data.cover,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpeg',
+  quality: 86,
+});
+
+const cardClasses = [
+  'project-card--wide',
+  'project-card--tall',
+  '',
+  '',
+  'project-card--small',
+  'project-card--medium',
+];
+---
+
+<BaseLayout
+  title="Arshnoor Singh — Game Designer & Developer"
+  description="Game designer and programmer working across Unity and Unreal. Systems, levels, and interfaces for games that have to hold up under play."
+  image={og.src}
+>
+  <section class="hero container">
+    <div class="hero__copy">
+      <p class="eyebrow">
+        <span class="status-dot" aria-hidden="true"></span>
+        {SITE_ROLE}
+      </p>
+
+      <h1 class="hero__title">
+        I build game systems that <span>hold up</span> under play.
+      </h1>
+
+      <p class="hero__lede">
+        Game designer and programmer working across Unity and Unreal. Systems,
+        levels, and interfaces — from a solo open-world driving game to shipped
+        narrative and educational titles.
+      </p>
+
+      <div class="hero__actions">
+        <a class="button button--primary" href={withBase('work/')}>
+          View selected work <span class="button__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="button" href={`mailto:${EMAIL}`}>Get in touch</a>
+      </div>
+
+      <div class="hero__meta" aria-label="Tools">
+        <span>Unity</span>
+        <span>Unreal Engine</span>
+        <span>C#</span>
+        <span>C++</span>
+        <span>Blender</span>
+      </div>
+    </div>
+
+    <div class="hero__stack" aria-hidden="true">
+      <p class="hero__stack-label">Selected frames / {new Date().getFullYear()}</p>
+
+      <figure class="hero__frame">
+        <Image
+          src={driving.data.cover}
+          alt=""
+          width={900}
+          format="webp"
+          quality={82}
+          loading="eager"
+        />
+        <figcaption>Driving License</figcaption>
+      </figure>
+
+      <figure class="hero__frame">
+        <Image
+          src={contactBelow.data.cover}
+          alt=""
+          width={600}
+          format="webp"
+          quality={82}
+          loading="lazy"
+        />
+        <figcaption>Contact Below</figcaption>
+      </figure>
+
+      <figure class="hero__frame">
+        <Image
+          src={loneliest.data.cover}
+          alt=""
+          width={600}
+          format="webp"
+          quality={82}
+          loading="lazy"
+        />
+        <figcaption>Loneliest Artist</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section container" id="work" aria-labelledby="work-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2 id="work-title">Six projects. Different constraints.</h2>
+      </div>
+      <span class="section-head__meta">06 projects</span>
+    </div>
+
+    <div class="work-grid">
+      {projects.map((project, index) => (
+        <ProjectCard project={project} className={cardClasses[index] ?? ''} />
+      ))}
+    </div>
+  </section>
+
+  <section class="about container" id="about" aria-labelledby="about-title">
+    <div class="about__copy">
+      <p class="eyebrow">About</p>
+      <h2 id="about-title">Design the system. Build the level. Test what the player does next.</h2>
+      <p>
+        I’m a game designer and programmer working across Unity and Unreal. My work
+        ranges from a solo open-world driving game to shipped narrative and
+        educational titles. I care about how mechanics read to players, how levels
+        teach without telling, and how systems hold up when someone breaks them.
+      </p>
+    </div>
+
+    <div>
+      <div class="about__skills">
+        <div class="skill-group">
+          <h3>Engines</h3>
+          <ul>
+            <li>Unreal Engine</li>
+            <li>Unity</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Code</h3>
+          <ul>
+            <li>C#</li>
+            <li>C++</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Design</h3>
+          <ul>
+            <li>Game Design</li>
+            <li>Systems Design</li>
+            <li>Level Design</li>
+            <li>Game Programming</li>
+            <li>Documentation</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Art &amp; Audio</h3>
+          <ul>
+            <li>Blender</li>
+            <li>Photoshop</li>
+            <li>Audio Recording &amp; Editing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="currently">
+        <span class="status-dot" aria-hidden="true"></span>
+        <p>
+          Currently developing <strong>Driving License? Never heard of it</strong>, a
+          solo driving game about everyone on the road losing their mind.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title">Have a role, a project, or a build that needs another pair of hands?</h2>
+      <p class="contact__lede">
+        The fastest way to reach me is email. I’m happy to talk about game design,
+        level design, systems, or the next build.
+      </p>
+      <a class="contact__email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+    </div>
+  </section>
+</BaseLayout>

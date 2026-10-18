@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/site';
+
+interface Props {
+  project: CollectionEntry<'work'>;
+  className?: string;
+}
+
+const { project, className = '' } = Astro.props;
+const { data } = project;
+---
+
+<a
+  class:list={['project-card', className]}
+  href={withBase(`work/${project.id}/`)}
+>
+  <div class="project-card__media">
+    <Image
+      src={data.cover}
+      alt={data.coverAlt}
+      width={1200}
+      format="webp"
+      quality={82}
+      loading="lazy"
+    />
+    <span class="project-card__label">{data.subtitle}</span>
+    <span class="project-card__arrow" aria-hidden="true">↗</span>
+  </div>
+
+  <div class="project-card__body">
+    <div class="project-card__top">
+      <h3 class="project-card__title">{data.title}</h3>
+      <span class="project-card__focus">{data.focus}</span>
+    </div>
+
+    <p class="project-card__summary">{data.summary}</p>
+
+    <div class="project-card__tags">
+      {data.tools.map((tool) => <span class="tag">{tool}</span>)}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,107 @@
+---
+import '@fontsource-variable/syne';
+import '@fontsource-variable/ibm-plex-sans';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { SITE_NAME, SITE_ROLE, withBase } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = image ? new URL(image, Astro.site).toString() : undefined;
+const fullTitle = title.includes(SITE_NAME) ? title : `${title} — ${SITE_NAME}`;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#080a0c" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={withBase('favicon.ico')} sizes="any" />
+    <link rel="sitemap" href={withBase('sitemap-index.xml')} />
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+
+    <script>
+      // Load the YouTube iframe only after the visitor asks for it.
+      document.querySelectorAll<HTMLButtonElement>('[data-video-id]').forEach((facade) => {
+        facade.addEventListener(
+          'click',
+          () => {
+            const id = facade.dataset.videoId;
+            const title = facade.dataset.videoTitle || 'YouTube video';
+            if (!id) return;
+
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+            iframe.title = title;
+            iframe.allow =
+              'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+            iframe.allowFullscreen = true;
+            facade.replaceWith(iframe);
+          },
+          { once: true },
+        );
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 100;
+    padding: 10px 14px;
+    border: 1px solid var(--accent);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    transform: translateY(-160%);
+    transition: transform 160ms ease;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { EMAIL, withBase } from '../../lib/site';
+---
+
+<BaseLayout
+  title="About — Arshnoor Singh"
+  description="Game designer and programmer working across Unity and Unreal. Systems design, level design, UX, and documentation."
+>
+  <section class="page-intro container">
+    <p class="eyebrow">About</p>
+    <h1>Game designer and programmer.</h1>
+    <p class="page-intro__lede">
+      I work across Unity and Unreal, from solo prototypes to shipped titles. My
+      focus is the point where systems, levels, and interfaces meet the player.
+    </p>
+  </section>
+
+  <div class="container about-page">
+    <aside class="about-page__aside">
+      <p class="project-aside__label">On this page</p>
+      <nav aria-label="About sections">
+        <a href="#profile">Profile</a>
+        <a href="#skills">Skills</a>
+        <a href="#currently">Currently</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </aside>
+
+    <div class="about-page__main">
+      <section id="profile">
+        <h2>I design the system, then build it.</h2>
+        <p>
+          I’m a game designer and programmer with work across driving, puzzle,
+          narrative, educational, and mobile games. I’ve built a solo open-world
+          driving game in Unity, designed and programmed levels in Unreal, and
+          shipped narrative and educational titles where clarity mattered as much
+          as the mechanic.
+        </p>
+        <p>
+          My work tends to sit between design and implementation: systems that need
+          to be tuned, levels that need to teach without a prompt, and interfaces
+          that need to make a lot of state readable at a glance. I like being close
+          enough to the build to test the idea, not just document it.
+        </p>
+      </section>
+
+      <section id="skills">
+        <h2>Skills</h2>
+        <div class="about-page__skills">
+          <div class="skill-group">
+            <h3>Engines</h3>
+            <ul>
+              <li>Unreal Engine</li>
+              <li>Unity</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Code</h3>
+            <ul>
+              <li>C#</li>
+              <li>C++</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Design</h3>
+            <ul>
+              <li>Game Design</li>
+              <li>Systems Design</li>
+              <li>Level Design</li>
+              <li>Game Programming</li>
+              <li>Documentation</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Art &amp; Audio</h3>
+            <ul>
+              <li>Blender</li>
+              <li>Photoshop</li>
+              <li>Audio Recording &amp; Editing</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="currently">
+        <h2>Currently</h2>
+        <div class="currently">
+          <span class="status-dot" aria-hidden="true"></span>
+          <p>
+            Developing <strong>Driving License? Never heard of it</strong>, a solo
+            open-world driving game built in Unity. The Steam page is live for
+            wishlists.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>
+          The fastest way to reach me is email. I’m happy to talk about game design,
+          level design, systems, or the next build.
+        </p>
+        <p>
+          <a class="contact__email" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        </p>
+        <p>
+          <a class="button" href={withBase('work/')}>
+            View selected work <span class="button__arrow" aria-hidden="true">↗</span>
+          </a>
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

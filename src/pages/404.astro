@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/site';
+---
+
+<BaseLayout
+  title="404 — Arshnoor Singh"
+  description="That page is not part of this build."
+>
+  <section class="not-found container">
+    <p class="not-found__code">404 / Level not found</p>
+    <h1>This part of the map isn’t built.</h1>
+    <p>
+      The link may be old, or the page may have moved. The work index is the best
+      place to restart.
+    </p>
+    <a class="button button--primary" href={withBase()}>
+      Back to the start <span class="button__arrow" aria-hidden="true">↗</span>
+    </a>
+  </section>
+</BaseLayout>

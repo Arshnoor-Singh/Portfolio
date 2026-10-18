@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const projects = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const first = projects[0];
+
+const og = first
+  ? await getImage({
+      src: first.data.cover,
+      width: 1200,
+      height: 630,
+      fit: 'cover',
+      format: 'jpeg',
+      quality: 86,
+    })
+  : undefined;
+---
+
+<BaseLayout
+  title="Selected Work — Arshnoor Singh"
+  description="Six game projects across driving, puzzle, narrative, educational, and mobile games — with the systems, levels, and interfaces behind them."
+  image={og?.src}
+>
+  <section class="page-intro container">
+    <p class="eyebrow">Work</p>
+    <h1>Selected projects.</h1>
+    <p class="page-intro__lede">
+      Six builds across driving, puzzle, narrative, educational, and mobile games.
+      Each page covers the constraint, the systems, and what I actually built.
+    </p>
+  </section>
+
+  <section class="section container" aria-label="Project list">
+    <div class="work-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>
