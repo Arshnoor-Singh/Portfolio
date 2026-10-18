@@ -1,6 +1,8 @@
 /* 60/40 layout for the Notion export.
    Desktop: 60% text column, 40% media column.
-   Tablet/mobile: columns stack so the media stays usable. */
+   Media is split between a two-column grid under the text and a two-column
+   grid in the media column so neither side is left empty.
+   Tablet/mobile: everything stacks. */
 
 :root {
   --page-max: 1800px;
@@ -48,6 +50,9 @@ header {
 .column-list.project-split > .project-media {
   width: 40% !important;
   flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Constrain the text measure inside the 60% column without shrinking it. */
@@ -64,19 +69,57 @@ header {
   max-width: var(--text-measure);
 }
 
-/* Make the media column fill its 40% share. */
-.project-media img {
-  width: 100% !important;
-  height: auto !important;
+/* The media grid under the text is allowed to use the full 60% column. */
+.project-text > .left-media {
+  max-width: none;
 }
 
-.project-media figure {
+/* Direct video/source blocks in the 40% column. */
+.project-media > figure {
+  width: 100%;
+  margin: 0;
+}
+
+/* Two-column image grids: one under the text, one in the media column. */
+.media-grid,
+.left-media {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
   width: 100%;
 }
 
-/* Nested image grids still use two columns inside the 40% media area. */
-.project-media .column-list {
-  gap: 20px;
+.left-media {
+  margin-top: 24px;
+}
+
+.left-media:empty,
+.media-grid:empty {
+  display: none;
+}
+
+.media-grid > figure,
+.left-media > figure {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.media-grid img,
+.left-media img {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+/* Fill an odd last row, and make a lone image full-width. */
+.media-grid > figure:only-child,
+.left-media > figure:only-child,
+.media-grid > figure:last-child:nth-child(odd),
+.left-media > figure:last-child:nth-child(odd) {
+  grid-column: span 2;
 }
 
 /* Bottom skills block: three equal columns across the wider page. */
@@ -157,7 +200,7 @@ header {
   background: #9df0bd;
 }
 
-/* Tablet / small desktop: stack text above media. */
+/* Tablet / small desktop: stack text and media. */
 @media only screen and (max-width: 1000px) {
   body {
     max-width: calc(100% - 64px);
@@ -197,8 +240,9 @@ header {
     max-width: none;
   }
 
-  .project-media img {
-    width: 100% !important;
+  .media-grid,
+  .left-media {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -216,5 +260,15 @@ header {
   .column-list.skills-grid > .column {
     width: 100% !important;
     flex: 0 0 auto;
+  }
+
+  .media-grid,
+  .left-media {
+    grid-template-columns: 1fr;
+  }
+
+  .media-grid > figure,
+  .left-media > figure {
+    grid-column: auto !important;
   }
 }

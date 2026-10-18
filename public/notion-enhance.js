@@ -6,9 +6,7 @@
     const media = split.querySelector('.project-media');
     if (!text || !media) return;
 
-    Array.from(text.children).forEach((child) => {
-      if (child.matches('figure')) media.appendChild(child);
-    });
+    text.querySelectorAll('figure').forEach((figure) => media.appendChild(figure));
   });
 
   const isYouTube = (url) => {
@@ -105,5 +103,68 @@
 
     wrapper.appendChild(button);
     source.replaceWith(wrapper);
+  });
+
+  // Build a two-column media grid in the 40% column and, on desktop, move
+  // just enough images under the text to balance the two column heights.
+  document.querySelectorAll('.column-list.project-split').forEach((split) => {
+    const text = split.querySelector('.project-text');
+    const media = split.querySelector('.project-media');
+    if (!text || !media) return;
+
+    const figures = Array.from(media.querySelectorAll('figure'));
+    const videoFigures = figures.filter(
+      (figure) => figure.querySelector('.youtube-embed, .source') || !figure.querySelector('img'),
+    );
+    const imageFigures = figures.filter(
+      (figure) => figure.querySelector('img') && !figure.querySelector('.youtube-embed, .source'),
+    );
+
+    // Rebuild the media column in a predictable order: video/source first,
+    // then the two-column image grid.
+    media.replaceChildren(...videoFigures);
+
+    const mediaGrid = document.createElement('div');
+    mediaGrid.className = 'media-grid';
+    media.appendChild(mediaGrid);
+
+    const leftMedia = document.createElement('div');
+    leftMedia.className = 'left-media';
+    text.appendChild(leftMedia);
+
+    const desktop = window.matchMedia('(min-width: 1001px)').matches;
+
+    if (!desktop || imageFigures.length === 0) {
+      mediaGrid.replaceChildren(...imageFigures);
+      split.dataset.leftImages = '0';
+      split.dataset.rightImages = String(imageFigures.length);
+      return;
+    }
+
+    const baseTextHeight = text.offsetHeight;
+
+    const measure = (count) => {
+      leftMedia.replaceChildren(...imageFigures.slice(0, count));
+      mediaGrid.replaceChildren(...imageFigures.slice(count));
+
+      const leftHeight = count > 0 ? leftMedia.offsetHeight + 24 : 0;
+      const rightHeight = media.offsetHeight;
+      return Math.abs(baseTextHeight + leftHeight - rightHeight);
+    };
+
+    let bestCount = 0;
+    let bestDiff = Infinity;
+
+    for (let count = 0; count <= imageFigures.length; count++) {
+      const diff = measure(count);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestCount = count;
+      }
+    }
+
+    measure(bestCount);
+    split.dataset.leftImages = String(bestCount);
+    split.dataset.rightImages = String(imageFigures.length - bestCount);
   });
 })();
