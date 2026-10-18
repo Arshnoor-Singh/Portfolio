@@ -1,0 +1,347 @@
+/* Dark theme for the exact Notion export.
+   Colors only — no layout, spacing, type, or column changes. */
+
+:root {
+  color-scheme: dark;
+
+  --page-bg: #0e1014;
+  --page-text: #d9d6cf;
+  --muted: #9aa0a6;
+  --border: #2a2f36;
+  --surface: #15191e;
+  --surface-2: #1a1f25;
+  --callout-bg: #12211b;
+  --green: #7ee0a7;
+  --orange: #f2a65a;
+  --blue: #70b7ff;
+  --yellow: #e6c86e;
+  --brown: #d7a27a;
+  --gray: #a0a8b0;
+  --purple: #c39bff;
+  --pink: #f08bbb;
+  --red: #ff8a80;
+}
+
+html {
+  background: var(--page-bg);
+  scrollbar-color: #3a4048 var(--page-bg);
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--page-text);
+}
+
+::selection {
+  background: #2f6f4f;
+  color: #f4fff8;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.page-title {
+  color: var(--page-text);
+}
+
+a,
+a:visited {
+  color: var(--blue);
+}
+
+a:hover {
+  color: var(--green);
+}
+
+hr {
+  border-bottom-color: var(--border);
+}
+
+figcaption {
+  opacity: 1;
+  color: var(--muted);
+}
+
+th {
+  color: var(--muted);
+}
+
+.source {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+.callout.block-color-default_background {
+  border-color: var(--border);
+}
+
+.callout {
+  box-shadow: inset 0 0 0 1px rgba(126, 224, 167, 0.08);
+}
+
+.tab {
+  border-color: var(--border);
+}
+
+.selected-value {
+  background: var(--surface-2);
+}
+
+.code,
+code {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+code {
+  color: var(--red);
+}
+
+.code > code {
+  color: inherit;
+}
+
+blockquote {
+  border-left-color: #4a4f57;
+}
+
+.bookmark-description {
+  color: var(--muted);
+}
+
+.simple-table-header-color {
+  background: var(--surface);
+  color: var(--page-text);
+}
+
+.text-icon {
+  border-color: var(--border);
+}
+
+/* Notion text highlight colors */
+
+.highlight-default {
+  color: var(--page-text);
+}
+
+.highlight-gray {
+  color: var(--gray);
+  fill: var(--gray);
+}
+
+.highlight-brown {
+  color: var(--brown);
+  fill: var(--brown);
+}
+
+.highlight-orange {
+  color: var(--orange);
+  fill: var(--orange);
+}
+
+.highlight-yellow {
+  color: var(--yellow);
+  fill: var(--yellow);
+}
+
+.highlight-teal {
+  color: var(--green);
+  fill: var(--green);
+}
+
+.highlight-blue {
+  color: var(--blue);
+  fill: var(--blue);
+}
+
+.highlight-purple {
+  color: var(--purple);
+  fill: var(--purple);
+}
+
+.highlight-pink {
+  color: var(--pink);
+  fill: var(--pink);
+}
+
+.highlight-red {
+  color: var(--red);
+  fill: var(--red);
+}
+
+.highlight-default_background {
+  color: inherit;
+}
+
+.highlight-gray_background {
+  background: rgba(160, 168, 176, 0.12);
+}
+
+.highlight-brown_background {
+  background: rgba(215, 162, 122, 0.14);
+}
+
+.highlight-orange_background {
+  background: rgba(242, 166, 90, 0.14);
+}
+
+.highlight-yellow_background {
+  background: rgba(230, 200, 110, 0.14);
+}
+
+.highlight-teal_background {
+  background: rgba(126, 224, 167, 0.12);
+}
+
+.highlight-blue_background {
+  background: rgba(112, 183, 255, 0.12);
+}
+
+.highlight-purple_background {
+  background: rgba(195, 155, 255, 0.12);
+}
+
+.highlight-pink_background {
+  background: rgba(240, 139, 187, 0.12);
+}
+
+.highlight-red_background {
+  background: rgba(255, 138, 128, 0.12);
+}
+
+/* Notion block colors */
+
+.block-color-default {
+  color: inherit;
+  fill: inherit;
+}
+
+.block-color-gray {
+  color: var(--gray);
+  fill: var(--gray);
+}
+
+.block-color-brown {
+  color: var(--brown);
+  fill: var(--brown);
+}
+
+.block-color-orange {
+  color: var(--orange);
+  fill: var(--orange);
+}
+
+.block-color-yellow {
+  color: var(--yellow);
+  fill: var(--yellow);
+}
+
+.block-color-teal {
+  color: var(--green);
+  fill: var(--green);
+}
+
+.block-color-blue {
+  color: var(--blue);
+  fill: var(--blue);
+}
+
+.block-color-purple {
+  color: var(--purple);
+  fill: var(--purple);
+}
+
+.block-color-pink {
+  color: var(--pink);
+  fill: var(--pink);
+}
+
+.block-color-red {
+  color: var(--red);
+  fill: var(--red);
+}
+
+.block-color-default_background {
+  color: inherit;
+  fill: inherit;
+}
+
+.block-color-gray_background {
+  background: #181c21;
+}
+
+.block-color-brown_background {
+  background: #211a16;
+}
+
+.block-color-orange_background {
+  background: #241a12;
+}
+
+.block-color-yellow_background {
+  background: #221f14;
+}
+
+.block-color-teal_background {
+  background: var(--callout-bg);
+}
+
+.block-color-blue_background {
+  background: #121c26;
+}
+
+.block-color-purple_background {
+  background: #1c1626;
+}
+
+.block-color-pink_background {
+  background: #24161f;
+}
+
+.block-color-red_background {
+  background: #241614;
+}
+
+/* Select and status colors */
+
+.select-value-color-default {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.select-value-color-gray {
+  background-color: rgba(160, 168, 176, 0.16);
+}
+
+.select-value-color-brown {
+  background-color: rgba(215, 162, 122, 0.18);
+}
+
+.select-value-color-orange {
+  background-color: rgba(242, 166, 90, 0.18);
+}
+
+.select-value-color-yellow {
+  background-color: rgba(230, 200, 110, 0.18);
+}
+
+.select-value-color-green {
+  background-color: rgba(126, 224, 167, 0.18);
+}
+
+.select-value-color-blue {
+  background-color: rgba(112, 183, 255, 0.18);
+}
+
+.select-value-color-purple {
+  background-color: rgba(195, 155, 255, 0.18);
+}
+
+.select-value-color-pink {
+  background-color: rgba(240, 139, 187, 0.18);
+}
+
+.select-value-color-red {
+  background-color: rgba(255, 138, 128, 0.18);
+}
