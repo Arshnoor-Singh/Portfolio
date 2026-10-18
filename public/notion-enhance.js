@@ -6,6 +6,16 @@
     const media = split.querySelector('.project-media');
     if (!text || !media) return;
 
+    // Move the project heading and any section-level intro copy into the text
+    // column, so the media column starts at the heading instead of below it.
+    const preceding = [];
+    let node = split.previousElementSibling;
+    while (node && node.tagName !== 'HR') {
+      preceding.unshift(node);
+      node = node.previousElementSibling;
+    }
+    if (preceding.length > 0) text.prepend(...preceding);
+
     text.querySelectorAll('figure').forEach((figure) => media.appendChild(figure));
   });
 

@@ -4,9 +4,11 @@ This repository serves the Notion portfolio export with:
 
 - the green folder icon removed
 - a dark theme
-- a full-width 60/40 text/media split on desktop
-- two-column image grids in the 40% media column
-- extra images placed under the text to balance both columns
+- a 45/55 text/media split on desktop; the text is capped at a readable measure
+  and the media column takes the remaining width
+- two-column image grids in the media column
+- images under the text stacked in a single column
+- an automatic distribution step that balances the text and media heights
 - click-to-play YouTube facades that open the player
 - a stacked text-then-media layout on tablet and mobile
 
@@ -22,7 +24,7 @@ https://arshnoor-singh.github.io/Portfolio/
 public/
   index.html        Notion export with layout classes and enhancement hooks
   notion-dark.css   color-only dark theme overrides
-  notion-layout.css 60/40 split, media grids, responsive stacking
+  notion-layout.css text/media split, media grids, responsive stacking
   notion-enhance.js media distribution, YouTube facades, player loading
   notion-assets/    images and video referenced by the export
 src/

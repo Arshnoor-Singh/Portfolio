@@ -1,7 +1,7 @@
-/* 60/40 layout for the Notion export.
-   Desktop: 60% text column, 40% media column.
-   Media is split between a two-column grid under the text and a two-column
-   grid in the media column so neither side is left empty.
+/* Text/media layout for the Notion export.
+   Desktop: a 45% text column and a 55% media column. The text is capped at a
+   readable measure, so the media takes the space the text does not use.
+   Images under the text stack vertically; images beside it use two columns.
    Tablet/mobile: everything stacks. */
 
 :root {
@@ -29,27 +29,29 @@ header {
   max-width: var(--text-measure);
 }
 
-/* Project split: text 60%, media 40%. */
+/* Project split: text 45%, media 55%. */
 .column-list.project-split {
   gap: 0;
   background-image: linear-gradient(
     to right,
-    transparent calc(60% - 1px),
-    #3f4a55 calc(60% - 1px),
-    #3f4a55 60%,
-    transparent 60%
+    transparent calc(45% - 1px),
+    #3f4a55 calc(45% - 1px),
+    #3f4a55 45%,
+    transparent 45%
   );
 }
 
 .column-list.project-split > .project-text {
-  width: 60% !important;
-  flex: 0 0 60%;
+  width: 45% !important;
+  flex: 0 0 45%;
+  align-self: flex-start;
   padding-right: var(--split-gap);
 }
 
 .column-list.project-split > .project-media {
-  width: 40% !important;
-  flex: 0 0 40%;
+  width: 55% !important;
+  flex: 0 0 55%;
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -74,7 +76,7 @@ header {
   max-width: none;
 }
 
-/* Direct video/source blocks in the 40% column. */
+/* Direct video/source blocks in the media column. */
 .project-media > figure {
   width: 100%;
   margin: 0;
@@ -90,6 +92,7 @@ header {
 }
 
 .left-media {
+  grid-template-columns: 1fr;
   margin-top: 24px;
 }
 
@@ -116,10 +119,12 @@ header {
 
 /* Fill an odd last row, and make a lone image full-width. */
 .media-grid > figure:only-child,
-.left-media > figure:only-child,
-.media-grid > figure:last-child:nth-child(odd),
-.left-media > figure:last-child:nth-child(odd) {
+.media-grid > figure:last-child:nth-child(odd) {
   grid-column: span 2;
+}
+
+.left-media > figure {
+  grid-column: auto;
 }
 
 /* Bottom skills block: three equal columns across the wider page. */
@@ -240,10 +245,14 @@ header {
     max-width: none;
   }
 
-  .media-grid,
-  .left-media {
+  .media-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .left-media {
+    grid-template-columns: 1fr;
+  }
+
 }
 
 @media only screen and (max-width: 600px) {
