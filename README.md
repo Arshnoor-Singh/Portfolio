@@ -1,40 +1,8 @@
-# Arshnoor Singh — Game Design Portfolio
+# Arshnoor Singh — Portfolio
 
-A dark, editorial portfolio for game design, level design, systems, and UX work.
+This repository currently serves a **1:1 copy of the Notion portfolio export** at the site root. The only change is that the green folder icon has been removed.
 
-## Stack
-
-- [Astro](https://astro.build/) with static output
-- GitHub Pages via GitHub Actions
-- Optimized images generated at build time
-- YouTube embeds loaded on click
-
-## Local development
-
-```bash
-npm install
-npm run dev
-```
-
-The site is served under `/Portfolio/` to match the GitHub Pages project URL:
-
-```text
-http://localhost:4321/Portfolio/
-```
-
-## Build
-
-```bash
-npm run build
-npm run preview
-```
-
-## Deploy
-
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site
-and publishes `dist/` to GitHub Pages.
-
-Live URL:
+## Live site
 
 ```text
 https://arshnoor-singh.github.io/Portfolio/
@@ -43,19 +11,24 @@ https://arshnoor-singh.github.io/Portfolio/
 ## Structure
 
 ```text
+public/
+  index.html        exact Notion export (folder icon removed)
+  notion-assets/    images and video referenced by the export
 src/
-  content/work/<slug>/index.md   project content and images
-  components/                    cards, gallery, video, systems
-  layouts/                       base layout and metadata
-  pages/                         home, work index, project pages, about
-  styles/global.css              design tokens and layout
-public/                          favicon, robots.txt
+  archive/pages/    previous Astro design, kept for reference but not built
+.github/
+  workflows/        GitHub Pages deployment
 ```
 
-## Adding a project
+## Local preview
 
-1. Create `src/content/work/<slug>/index.md`.
-2. Add a cover and gallery images in the same folder.
-3. Fill in the frontmatter (title, summary, role, focus, tools, systems, links).
-4. Set `order` to control its position.
-5. Commit and push.
+```bash
+npm install
+npm run build
+npm run preview
+```
+
+## Deploy
+
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the
+project and publishes `dist/` to GitHub Pages.
