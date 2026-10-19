@@ -56,62 +56,91 @@
   const sources = document.querySelectorAll('.source a[href]');
 
   sources.forEach((link) => {
-    if (!isYouTube(link.href)) return;
-
-    const videoId = getYouTubeId(link.href);
-    if (!videoId) return;
-
     const source = link.closest('.source');
     if (!source) return;
 
     const figure = source.closest('figure');
     const caption = figure?.querySelector('figcaption')?.textContent?.trim();
 
+    if (isYouTube(link.href)) {
+      const videoId = getYouTubeId(link.href);
+      if (!videoId) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'youtube-embed';
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'youtube-facade';
+      button.setAttribute('aria-label', `Play video: ${caption || 'YouTube video'}`);
+
+      const thumbnail = document.createElement('img');
+      const thumbnailName = noMaxres.has(videoId) ? 'hqdefault' : 'maxresdefault';
+      thumbnail.src = `https://i.ytimg.com/vi/${videoId}/${thumbnailName}.jpg`;
+      thumbnail.alt = '';
+      thumbnail.loading = 'lazy';
+      thumbnail.addEventListener(
+        'error',
+        () => {
+          thumbnail.src = `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
+        },
+        { once: true },
+      );
+
+      const play = document.createElement('span');
+      play.className = 'youtube-play';
+      const glyph = document.createElement('span');
+      glyph.textContent = '▶';
+      play.appendChild(glyph);
+
+      button.append(thumbnail, play);
+
+      button.addEventListener(
+        'click',
+        () => {
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+          iframe.title = caption || 'YouTube video';
+          iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+          iframe.allow =
+            'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          iframe.allowFullscreen = true;
+          wrapper.replaceChildren(iframe);
+        },
+        { once: true },
+      );
+
+      wrapper.appendChild(button);
+      source.replaceWith(wrapper);
+      return;
+    }
+
+    let videoUrl;
+    try {
+      videoUrl = new URL(link.href, window.location.href);
+    } catch {
+      return;
+    }
+
+    if (!/\.(mp4|webm|mov)$/i.test(videoUrl.pathname)) return;
+
     const wrapper = document.createElement('div');
-    wrapper.className = 'youtube-embed';
+    wrapper.className = 'local-video';
 
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'youtube-facade';
-    button.setAttribute('aria-label', `Play video: ${caption || 'YouTube video'}`);
+    const video = document.createElement('video');
+    video.controls = true;
+    video.preload = 'metadata';
+    video.playsInline = true;
+    video.poster = videoUrl.pathname.replace(/\.(mp4|webm|mov)$/i, '-poster.jpg');
+    video.setAttribute('aria-label', caption || 'Gameplay video');
 
-    const thumbnail = document.createElement('img');
-    const thumbnailName = noMaxres.has(videoId) ? 'hqdefault' : 'maxresdefault';
-    thumbnail.src = `https://i.ytimg.com/vi/${videoId}/${thumbnailName}.jpg`;
-    thumbnail.alt = '';
-    thumbnail.loading = 'lazy';
-    thumbnail.addEventListener(
-      'error',
-      () => {
-        thumbnail.src = `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
-      },
-      { once: true },
-    );
+    const sourceEl = document.createElement('source');
+    sourceEl.src = videoUrl.pathname;
+    sourceEl.type = videoUrl.pathname.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+    video.appendChild(sourceEl);
+    video.appendChild(document.createTextNode('Your browser does not support video.'));
 
-    const play = document.createElement('span');
-    play.className = 'youtube-play';
-    const glyph = document.createElement('span');
-    glyph.textContent = '▶';
-    play.appendChild(glyph);
-
-    button.append(thumbnail, play);
-
-    button.addEventListener(
-      'click',
-      () => {
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
-        iframe.title = caption || 'YouTube video';
-        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-        iframe.allow =
-          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        iframe.allowFullscreen = true;
-        wrapper.replaceChildren(iframe);
-      },
-      { once: true },
-    );
-
-    wrapper.appendChild(button);
+    wrapper.appendChild(video);
     source.replaceWith(wrapper);
   });
 

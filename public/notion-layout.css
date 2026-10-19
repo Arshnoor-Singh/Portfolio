@@ -40,10 +40,17 @@ body {
   width: min(var(--page-max), calc(100% - 64px));
   height: 100%;
   margin: 0 auto;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
   font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.02em;
   color: var(--muted, #9aa0a6);
+}
+
+.portfolio-breadcrumb__inner::-webkit-scrollbar {
+  display: none;
 }
 
 .portfolio-breadcrumb a {
@@ -195,6 +202,21 @@ header {
 .column-list.skills-grid > .column {
   width: auto !important;
   flex: 1 1 0;
+}
+
+/* Native local video player created by notion-enhance.js. */
+.local-video {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.local-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
 }
 
 /* YouTube player created by notion-enhance.js. */

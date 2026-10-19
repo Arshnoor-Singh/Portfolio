@@ -1,0 +1,293 @@
+/* Readable document layout for Notion subpages. */
+
+.doc-page {
+  width: min(1100px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 64px 0 96px;
+}
+
+.doc-header {
+  margin-bottom: 42px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.doc-eyebrow {
+  margin: 0 0 12px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.doc-header h1 {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--page-text);
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.doc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.doc-tag {
+  display: inline-flex;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.doc-content {
+  max-width: 1000px;
+}
+
+.doc-content h2 {
+  margin: 2.2em 0 0.55em;
+  color: var(--page-text);
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.05;
+}
+
+.doc-content h3 {
+  margin: 1.9em 0 0.45em;
+  color: var(--page-text);
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  line-height: 1.1;
+}
+
+.doc-content h4 {
+  margin: 1.6em 0 0.35em;
+  color: var(--green);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.doc-content p {
+  max-width: 78ch;
+  margin: 0.75em 0;
+  color: var(--page-text);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.doc-content ul,
+.doc-content ol {
+  max-width: 78ch;
+  margin: 0.75em 0 1.1em;
+  padding-inline-start: 1.5em;
+}
+
+.doc-content li {
+  margin: 0.35em 0;
+  color: var(--page-text);
+  line-height: 1.6;
+}
+
+.doc-content ol > li::marker {
+  color: var(--green);
+}
+
+.doc-content a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.doc-content a:hover {
+  color: var(--green);
+}
+
+.doc-content strong {
+  color: var(--page-text);
+  font-weight: 600;
+}
+
+.doc-content em {
+  color: var(--muted);
+}
+
+.doc-content hr {
+  margin: 48px 0;
+  border-bottom-color: var(--border);
+}
+
+.doc-content blockquote {
+  margin: 24px 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+
+.doc-content pre,
+.doc-content code {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--page-text);
+}
+
+.doc-content pre {
+  padding: 16px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+
+.doc-content code {
+  padding: 2px 4px;
+}
+
+.doc-content pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.doc-table-wrap {
+  width: 100%;
+  margin: 20px 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.doc-table th,
+.doc-table td {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  color: var(--page-text);
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc-table th {
+  background: var(--surface);
+  color: var(--green);
+  font-weight: 600;
+}
+
+.doc-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.doc-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.doc-gallery figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.doc-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.doc-gallery figcaption {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.doc-equation {
+  margin: 20px 0;
+  overflow-x: auto;
+  color: var(--page-text);
+  font-size: 1.05rem;
+}
+
+.doc-equation .katex-display {
+  margin: 0;
+}
+
+.doc-equation .katex {
+  color: var(--page-text);
+}
+
+.doc-callout {
+  margin: 20px 0;
+  padding: 16px 18px;
+  border: 1px solid #24352f;
+  border-radius: 10px;
+  background: var(--callout-bg);
+  color: var(--page-text);
+}
+
+.doc-callout p {
+  margin: 0;
+}
+
+.doc-page-link,
+.doc-content .doc-page-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 12px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--page-text);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.doc-page-link:hover,
+.doc-content .doc-page-link:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.doc-page-link__arrow {
+  flex: 0 0 auto;
+  color: var(--green);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+.doc-content .local-video,
+.doc-content .youtube-embed {
+  margin: 28px 0;
+}
+
+@media (max-width: 900px) {
+  .doc-page {
+    width: calc(100% - 48px);
+    padding: 48px 0 72px;
+  }
+
+  .doc-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .doc-page {
+    width: calc(100% - 40px);
+    padding: 40px 0 64px;
+  }
+
+  .doc-header h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+}

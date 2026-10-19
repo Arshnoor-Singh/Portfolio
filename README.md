@@ -1,47 +1,57 @@
 # Arshnoor Singh — Portfolio
 
-This repository serves the Notion portfolio export with:
+This repository serves the Notion portfolio export plus the full public Notion
+subpages, restyled into the portfolio's dark theme.
 
-- the green folder icon removed
-- a dark theme
-- a 45/55 text/media split on desktop; the text is capped at a readable measure
-  and the media column takes the remaining width
-- two-column image grids in the media column
-- images under the text stacked in a single column
-- an automatic distribution step that balances the text and media heights
-- click-to-play YouTube facades that open the player
-- a fixed breadcrumb bar (`Portfolio Home` / `Portfolio Home > Project`)
-- dedicated project pages: `driving-license.html`, `lost-in-escape.html`,
-  `contact-below.html`, `loneliest-artist.html`, `turtle-racer.html`,
-  `oyster.html`
-- project headings and Notion-page links point to those local pages
-- more vertical space between project sections
+## Home page
 
-## Live site
+- Notion portfolio layout with the green folder icon removed
+- Dark theme
+- 45/55 text/media split on desktop, stacking on tablet and mobile
+- Two-column image grids in the media column
+- Images under the text stacked in a single column
+- Click-to-play YouTube facades
+- Contact Below gameplay clip as a local MP4 player
+- Fixed breadcrumb bar (`Portfolio Home` / project path)
+- More vertical space between project sections
 
-```text
-https://arshnoor-singh.github.io/Portfolio/
-```
+## Imported Notion subpages
+
+- `contact-below.html` — Contact Below design document
+- `contact-below-vessels.html` — Vessels
+- `contact-below-ui-art.html` — UI Art and Animations
+- `contact-below-audio.html` — Audio Systems
+- `contact-below-narrative.html` — Narrative Design
+- `contact-below-sounds-list.html` — Sounds List
+- `lost-in-escape.html` — Lost in Escape design document
+
+`Contact Below` and `Lost in Escape` project headings on the home page link to
+their documents. Their Notion-page links also point to these local pages. The
+other four projects are only summaries on the home page because they do not have
+separate Notion subpages.
 
 ## Structure
 
 ```text
 public/
-  index.html             portfolio home
-  contact-below.html     project pages
-  driving-license.html
-  lost-in-escape.html
-  loneliest-artist.html
-  turtle-racer.html
-  oyster.html
-  notion-dark.css        color-only dark theme overrides
-  notion-layout.css      split, media grids, breadcrumb, responsive rules
-  notion-enhance.js      media distribution, YouTube facades, player loading
-  notion-assets/         images and video referenced by the export
+  index.html                         portfolio home
+  contact-below.html                 Contact Below document
+  contact-below-vessels.html         Contact Below subpages
+  contact-below-ui-art.html
+  contact-below-audio.html
+  contact-below-narrative.html
+  contact-below-sounds-list.html
+  lost-in-escape.html                Lost in Escape document
+  notion-dark.css                    dark theme
+  notion-layout.css                  45/55 layout, media grids, breadcrumb
+  notion-docs.css                    long-form document layout
+  notion-enhance.js                  media distribution, local video, YouTube
+  notion-assets/                     home-page media
+  notion-docs/                       imported document images
 src/
-  archive/pages/         previous Astro design, kept for reference but not built
+  archive/pages/                     previous Astro design, not built
 .github/
-  workflows/             GitHub Pages deployment
+  workflows/                         GitHub Pages deployment
 ```
 
 ## Local preview
