@@ -84,9 +84,10 @@ hr {
   margin: 72px 0 40px;
 }
 
-/* Keep the page title, intro, and section-level copy in the left column. */
+/* Keep project copy in the left column, but let the opening statement run
+   across the full page width. */
 header {
-  max-width: var(--text-measure);
+  max-width: none;
 }
 
 .page-body > h1,
@@ -94,6 +95,11 @@ header {
 .page-body > h3,
 .page-body > p {
   max-width: var(--text-measure);
+}
+
+.page-body > h3:first-of-type,
+.page-body > h3:first-of-type + p {
+  max-width: none;
 }
 
 /* Project split: text 45%, media 55%. */
