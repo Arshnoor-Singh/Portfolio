@@ -79,6 +79,77 @@ body {
   text-underline-offset: 0.12em;
 }
 
+/* Collapsible project headings. */
+.project-text > h1.project-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: var(--text-measure);
+}
+
+.project-heading__text {
+  min-width: 0;
+}
+
+.project-toggle {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin: 0.38em 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted, #9aa0a6);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.project-toggle:hover {
+  color: var(--green, #7ee0a7);
+}
+
+.project-toggle:focus-visible {
+  outline: 2px solid var(--green, #7ee0a7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.project-toggle__icon {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentColor;
+  transform: rotate(90deg);
+  transform-origin: 50% 50%;
+  transition: transform 160ms ease;
+}
+
+.project-split.is-collapsed .project-toggle__icon {
+  transform: rotate(0deg);
+}
+
+.column-list.project-split.is-collapsed {
+  background-image: none;
+}
+
+.project-split.is-collapsed > .project-text {
+  flex: 0 0 100%;
+  width: 100% !important;
+  padding-right: 0;
+}
+
+.project-split.is-collapsed > .project-text > :not(.project-heading) {
+  display: none !important;
+}
+
+.project-split.is-collapsed > .project-media {
+  display: none !important;
+}
+
 /* More breathing room between project sections. */
 hr {
   margin: 72px 0 40px;

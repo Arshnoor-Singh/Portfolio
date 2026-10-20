@@ -19,6 +19,42 @@
     text.querySelectorAll('figure').forEach((figure) => media.appendChild(figure));
   });
 
+  // Add a Notion-style collapse control to each project heading.
+  document.querySelectorAll('.column-list.project-split').forEach((split) => {
+    const text = split.querySelector('.project-text');
+    const heading = text?.querySelector('h1');
+    if (!text || !heading || heading.querySelector('.project-toggle')) return;
+
+    const title = heading.textContent.trim();
+    const titleWrap = document.createElement('span');
+    titleWrap.className = 'project-heading__text';
+    while (heading.firstChild) titleWrap.appendChild(heading.firstChild);
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'project-toggle';
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', `Collapse ${title} project`);
+
+    const icon = document.createElement('span');
+    icon.className = 'project-toggle__icon';
+    icon.setAttribute('aria-hidden', 'true');
+    toggle.appendChild(icon);
+
+    heading.classList.add('project-heading');
+    heading.append(toggle, titleWrap);
+
+    toggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      const collapsed = split.classList.toggle('is-collapsed');
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      toggle.setAttribute('aria-label', `${collapsed ? 'Expand' : 'Collapse'} ${title} project`);
+      if (collapsed) {
+        split.querySelectorAll('video').forEach((video) => video.pause());
+      }
+    });
+  });
+
   const isYouTube = (url) => {
     try {
       const parsed = new URL(url, window.location.href);
