@@ -50,6 +50,7 @@
 
 .doc-content {
   max-width: 1000px;
+  white-space: normal;
 }
 
 .doc-content h2 {
@@ -136,6 +137,7 @@
 }
 
 .doc-content pre {
+  white-space: pre-wrap;
   padding: 16px;
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -289,5 +291,104 @@
 
   .doc-header h1 {
     font-size: clamp(2rem, 10vw, 3rem);
+  }
+}
+
+/* The expanded "Current Latest Showcase" section from the Contact Below page. */
+.doc-showcase {
+  margin: 0 0 56px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.doc-showcase h2 {
+  margin-top: 0;
+}
+
+.doc-content p.doc-showcase__lead {
+  margin: -0.35em 0 1.6em;
+  color: var(--orange);
+  font-size: 0.95rem;
+}
+
+.doc-content p.doc-showcase__lead a {
+  color: var(--orange);
+}
+
+.doc-content p.doc-showcase__lead a:hover {
+  color: var(--green);
+}
+
+.doc-showcase__split {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+}
+
+.doc-showcase__text {
+  flex: 0 0 45%;
+  width: 45%;
+  min-width: 0;
+}
+
+.doc-showcase__text > :first-child {
+  margin-top: 0;
+}
+
+.doc-showcase__text p {
+  max-width: none;
+}
+
+.doc-showcase__text ol {
+  margin-top: 0.4em;
+}
+
+.doc-showcase__text .doc-callout {
+  margin: 14px 0;
+}
+
+.doc-showcase__media {
+  display: flex;
+  flex: 0 0 55%;
+  flex-direction: column;
+  gap: 18px;
+  width: 55%;
+  min-width: 0;
+}
+
+.doc-showcase__media figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.doc-showcase__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.doc-showcase__media figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.doc-showcase__media .local-video {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .doc-showcase__split {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .doc-showcase__text,
+  .doc-showcase__media {
+    flex: 0 0 auto;
+    width: 100%;
   }
 }
