@@ -499,3 +499,15 @@
 .doc-page--wide .doc-content > blockquote {
   max-width: none;
 }
+
+/* Contact Below gameplay note above the video. */
+.doc-showcase__media .doc-showcase__video-caption {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.doc-showcase__video-caption .doc-showcase__timestamps {
+  color: var(--orange);
+}
